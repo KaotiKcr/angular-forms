@@ -11,12 +11,15 @@ import { SwalPartialTargets, SwalComponent } from '@toverux/ngx-sweetalert2';
 })
 export class HomeComponent {
   languages = [];
-  model = new Employee('', '', false, 'payroll', 'default');
+  model = new Employee('', '', false, 'payroll', 'default', new Date(), new Date('Oct 10 2018 8:00 AM'), 0);
+  paymentType = 'payroll';
   hasFirstNameError = false;
   hasLastNameError = false;
   hasPrimaryLanguageError = false;
   postData = '';
   postError = '';
+  minDate: Date;
+  fullTime = 'Yes';
   @ViewChild('swalSuccess') private swalSuccess: SwalComponent;
   @ViewChild('swalError') private swalError: SwalComponent;
 
@@ -24,6 +27,8 @@ export class HomeComponent {
     private formPoster: FormPoster,
     public readonly swalTargets: SwalPartialTargets
   ) {
+    this.minDate = new Date();
+    this.minDate.setDate(new Date().getDate() + 7);
     this.formPoster
       .getLanguages()
       .subscribe(
@@ -66,6 +71,14 @@ export class HomeComponent {
     ) {
       return;
     }
+
+    if (this.fullTime === 'Yes') {
+      this.model.fullTime = true;
+    } else {
+      this.model.fullTime = false;
+    }
+
+    this.model.paymentType = this.paymentType;
 
     this.formPoster
       .postEmployeeForm(this.model)

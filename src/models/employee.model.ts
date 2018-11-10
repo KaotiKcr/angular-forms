@@ -4,6 +4,9 @@ export class Employee {
     public lastName: string,
     public fullTime: boolean,
     public paymentType: string,
-    public primaryLanguage: string
+    public primaryLanguage: string,
+    public startDate: Date,
+    public startTime: Date,
+    public rate: number
     ) {}
 }
