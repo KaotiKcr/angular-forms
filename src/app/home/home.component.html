@@ -1,0 +1,136 @@
+<h3 *ngIf="languages.length == 0">Loading...</h3>
+<div class="container" *ngIf="languages.length > 0">
+  <h3>Angular 2 Forms</h3>
+  <form #form="ngForm" (submit)="submitForm(form)" novalidate>
+    <div class="form-group">
+      <label class="control-label">First Name</label>
+      <input
+        #firstName="ngModel"
+        type="text"
+        class="form-control"
+        required
+        name="firstName"
+        [class.has-error]="
+          (firstName.invalid && firstName.touched) || hasFirstNameError
+        "
+        [(ngModel)]="model.firstName"
+      />
+      <div *ngIf="hasFirstNameError" class="invalid-feedback">
+        First Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Last Name</label>
+      <input
+        #lastName="ngModel"
+        type="text"
+        class="form-control"
+        required
+        name="lastName"
+        [class.has-error]="
+          (lastName.invalid && lastName.touched) || hasLastNameError
+        "
+        [(ngModel)]="model.lastName"
+      />
+      <div *ngIf="hasLastNameError" class="invalid-feedback">
+        Last Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input
+            type="checkbox"
+            name="fullTime"
+            name="fullTime"
+            [(ngModel)]="model.fullTime"
+          />
+          Full Time
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Payment Type</label>
+      <div class="radio">
+        <label>
+          <input
+            type="radio"
+            name="paymentType"
+            value="payroll"
+            checked
+            [(ngModel)]="model.paymentType"
+          />
+          Payroll
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input
+            type="radio"
+            name="paymentType"
+            value="contract"
+            [(ngModel)]="model.paymentType"
+          />
+          Contract
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Primary Language</label>
+      <select
+        #primaryLanguage
+        class="form-control"
+        name="primaryLanguage"
+        (blur)="validatePrimaryLanguage(primaryLanguage.value)"
+        (change)="validatePrimaryLanguage(primaryLanguage.value)"
+        [class.has-error]="hasPrimaryLanguageError"
+        [(ngModel)]="model.primaryLanguage"
+      >
+        <option value="default">Select a Language...</option>
+        <option *ngFor="let lang of languages">{{ lang }}</option>
+      </select>
+      <div *ngIf="hasPrimaryLanguageError" class="invalid-feedback">
+        Primary Language is required.
+      </div>
+    </div>
+
+    <button class="btn btn-primary">Ok</button>
+
+    <swal #swalSuccess title="POST Success" type="success">
+      <blockquote *swalPartial>
+        <h4>Data</h4>
+        <code>
+          <pre>{{ postData | json }}</pre>
+        </code>
+      </blockquote>
+    </swal>
+
+    <swal #swalError title="POST Error" type="error">
+      <blockquote *swalPartial>
+        <h4>Error</h4>
+        <code>
+          <pre>{{ postError }}</pre>
+        </code>
+      </blockquote>
+    </swal>
+  </form>
+  <br />
+  <blockquote>
+    <h4>Model</h4>
+    <code>
+      <pre>{{ model | json }}</pre>
+    </code>
+  </blockquote>
+  <br />
+
+  <blockquote>
+    <h4>Angular</h4>
+    <code>
+      <pre>{{ form.value | json }}</pre>
+    </code>
+  </blockquote>
+</div>
